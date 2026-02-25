@@ -8,11 +8,17 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "curso")
 public class Curso {
+
+    @OneToMany(mappedBy = "curso")
+    private List<Inscripciones> inscripciones;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

@@ -6,11 +6,17 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "categoria")
 public class Categoria {
+
+    @OneToMany(mappedBy = "categoria")
+    private List<Curso> cursos;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

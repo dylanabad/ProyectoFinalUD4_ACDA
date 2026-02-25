@@ -7,12 +7,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "usuario")
 public class Usuario {
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Inscripciones> inscripciones;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
