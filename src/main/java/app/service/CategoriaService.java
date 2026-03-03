@@ -1,8 +1,8 @@
-package service;
+package app.service;
 
 import lombok.RequiredArgsConstructor;
-import model.Categoria;
-import repository.CategoriaRepository;
+import app.model.Categoria;
+import app.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

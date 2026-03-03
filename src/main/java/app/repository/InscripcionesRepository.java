@@ -1,7 +1,7 @@
-package repository;
+package app.repository;
 
-import model.Inscripciones;
-import model.InscripcionesId;
+import app.model.Inscripciones;
+import app.model.InscripcionesId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InscripcionesRepository extends JpaRepository<Inscripciones, InscripcionesId> {

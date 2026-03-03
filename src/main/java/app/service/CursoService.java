@@ -1,12 +1,12 @@
-package service;
+package app.service;
 
 import lombok.RequiredArgsConstructor;
-import model.Curso;
-import model.Usuario;
-import model.Inscripciones;
-import model.InscripcionesId;
-import repository.CursoRepository;
-import repository.UsuarioRepository;
+import app.model.Curso;
+import app.model.Usuario;
+import app.model.Inscripciones;
+import app.model.InscripcionesId;
+import app.repository.CursoRepository;
+import app.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

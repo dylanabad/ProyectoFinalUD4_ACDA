@@ -1,9 +1,9 @@
-package service;
+package app.service;
 
 import lombok.RequiredArgsConstructor;
-import model.Inscripciones;
-import model.InscripcionesId;
-import repository.InscripcionesRepository;
+import app.model.Inscripciones;
+import app.model.InscripcionesId;
+import app.repository.InscripcionesRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

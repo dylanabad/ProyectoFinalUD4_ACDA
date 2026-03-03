@@ -1,8 +1,8 @@
-package service;
+package app.service;
 
 import lombok.RequiredArgsConstructor;
-import model.Usuario;
-import repository.UsuarioRepository;
+import app.model.Usuario;
+import app.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
