@@ -38,7 +38,7 @@ public class CursoService {
         cursoRepository.deleteById(id);
     }
 
-    //Funcionalidad avanzada: inscribir usuario a un curso
+    //inscribir usuario a un curso
     @Transactional
     public void inscribirUsuario(Long cursoId, Long usuarioId) {
         Curso curso = findById(cursoId);
@@ -59,7 +59,7 @@ public class CursoService {
         id.setUsuarioId(usuario.getId());
         inscripcion.setId(id);
 
-        // Añadir inscripción a listas de referencia (opcional, útil para bi-direccional)
+        // Añadir inscripción a listas de referencia
         curso.getInscripciones().add(inscripcion);
         usuario.getInscripciones().add(inscripcion);
 

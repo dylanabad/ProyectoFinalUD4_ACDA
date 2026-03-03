@@ -42,4 +42,12 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
            """)
     List<Categoria> findCategoriasConMasDeNCursos(@Param("minCursos") long minCursos);
 
+    // Ejemplo de consulta avanzada: obtener categorías con número de cursos asociados
+    @Query("""
+           SELECT c FROM Categoria c
+           JOIN c.cursos cu
+           WHERE cu.id = :cursoId
+           """)
+    List<Categoria> findCategoriasByCursoId(@Param("cursoId") Long cursoId);
+
 }

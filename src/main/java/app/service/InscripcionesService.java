@@ -30,4 +30,5 @@ public class InscripcionesService {
     public void delete(InscripcionesId id) {
         inscripcionesRepository.deleteById(id);
     }
+
 }

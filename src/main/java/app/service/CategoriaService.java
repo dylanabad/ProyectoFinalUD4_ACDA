@@ -30,4 +30,16 @@ public class CategoriaService {
     public void delete(Long id) {
         categoriaRepository.deleteById(id);
     }
+
+    //Obtener categorías de un curso específico
+    public List<Categoria> categoriasPorCurso(Long cursoId) {
+        return categoriaRepository.findCategoriasByCursoId(cursoId);
+    }
+
+    //Actualizar nombre de categoría en todos los cursos relacionados
+    public void actualizarNombreCategoriaEnCursos(Long categoriaId, String nuevoNombre) {
+        Categoria categoria = findById(categoriaId);
+        categoria.setNombre(nuevoNombre);
+        categoriaRepository.save(categoria);
+    }
 }
