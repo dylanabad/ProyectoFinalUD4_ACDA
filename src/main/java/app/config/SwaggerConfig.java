@@ -13,7 +13,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("API Plataforma Cursos")
-                        .description("API REST para el proyecto Unidad 4 de ACDA")
+                        .description("API REST para el proyecto de la Unidad 4 de ACDA")
                         .version("v1.0"));
     }
 }

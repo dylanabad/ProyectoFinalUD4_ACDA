@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
+
+@Tag(name = "Inscripciones", description = "Gestión de inscripciones de usuarios en cursos")
 @RestController
 @RequestMapping("/inscripciones")
 @RequiredArgsConstructor
@@ -16,16 +21,17 @@ public class InscripcionesController {
 
     private final InscripcionesService inscripcionesService;
 
-    // Obtener todas las inscripciones
+    @Operation(summary = "Obtener todas las inscripciones")
     @GetMapping
     public ResponseEntity<List<Inscripciones>> getAll() {
         return ResponseEntity.ok(inscripcionesService.findAll());
     }
 
-    // Obtener una inscripción específica
+    @Operation(summary = "Buscar inscripción por usuario y curso")
     @GetMapping("/{usuarioId}/{cursoId}")
-    public ResponseEntity<Inscripciones> getById(@PathVariable Long usuarioId,
-                                                 @PathVariable Long cursoId) {
+    public ResponseEntity<Inscripciones> getById(
+            @Parameter(description = "ID del usuario") @PathVariable Long usuarioId,
+            @Parameter(description = "ID del curso") @PathVariable Long cursoId) {
 
         InscripcionesId id = new InscripcionesId();
         id.setUsuarioId(usuarioId);
@@ -34,17 +40,18 @@ public class InscripcionesController {
         return ResponseEntity.ok(inscripcionesService.findById(id));
     }
 
-    // Crear inscripción manualmente
+    @Operation(summary = "Crear inscripción manualmente")
     @PostMapping
     public ResponseEntity<Inscripciones> create(@RequestBody Inscripciones inscripcion) {
         Inscripciones creada = inscripcionesService.save(inscripcion);
         return ResponseEntity.status(201).body(creada);
     }
 
-    // Eliminar inscripción
+    @Operation(summary = "Eliminar inscripción")
     @DeleteMapping("/{usuarioId}/{cursoId}")
-    public ResponseEntity<Void> delete(@PathVariable Long usuarioId,
-                                       @PathVariable Long cursoId) {
+    public ResponseEntity<Void> delete(
+            @Parameter(description = "ID del usuario") @PathVariable Long usuarioId,
+            @Parameter(description = "ID del curso") @PathVariable Long cursoId) {
 
         InscripcionesId id = new InscripcionesId();
         id.setUsuarioId(usuarioId);
