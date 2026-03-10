@@ -50,7 +50,7 @@ public interface CursoRepository extends JpaRepository<Curso, Long> {
            """)
     List<Curso> findCursosConMinInscripciones(@Param("minInscripciones") long minInscripciones);
 
-    //Actualizar plazas disponibles al inscribir un usuario (operación avanzada)
+    //Actualizar plazas disponibles al inscribir un usuario
     @Query("""
            UPDATE Curso c SET c.plazasDisponibles = c.plazasDisponibles - 1
            WHERE c.id = :cursoId AND c.plazasDisponibles > 0

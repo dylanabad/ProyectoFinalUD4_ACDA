@@ -1,5 +1,7 @@
 package app.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,31 +19,26 @@ import java.util.List;
 public class Curso {
 
     @OneToMany(mappedBy = "curso")
+    @JsonManagedReference
     private List<Inscripciones> inscripciones;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @Size(max = 150)
     @NotNull
-    @Column(name = "titulo", nullable = false, length = 150)
     private String titulo;
 
     @Lob
-    @Column(name = "descripcion")
     private String descripcion;
 
     @NotNull
-    @Column(name = "plazas_disponibles", nullable = false)
     private Integer plazasDisponibles;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "categoria_id", nullable = false)
+    @JsonBackReference // rompe bucle con categoria
     private Categoria categoria;
-
-
 }

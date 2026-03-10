@@ -1,5 +1,6 @@
 package app.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "inscripciones")
 public class Inscripciones {
+
     @EmbeddedId
     private InscripcionesId id;
 
@@ -21,17 +23,16 @@ public class Inscripciones {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonBackReference
     private Usuario usuario;
 
     @MapsId("cursoId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "curso_id", nullable = false)
+    @JsonBackReference // lado "hijo" para curso
     private Curso curso;
 
     @NotNull
-    @Column(name = "fecha_inscripcion", nullable = false)
     private LocalDate fechaInscripcion;
-
-
 }

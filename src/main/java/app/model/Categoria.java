@@ -1,5 +1,6 @@
 package app.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,17 +16,14 @@ import java.util.List;
 public class Categoria {
 
     @OneToMany(mappedBy = "categoria")
+    @JsonManagedReference
     private List<Curso> cursos;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @Size(max = 100)
     @NotNull
-    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
-
-
 }

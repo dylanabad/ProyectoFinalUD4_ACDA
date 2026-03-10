@@ -33,7 +33,7 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
            """)
     List<Categoria> findCategoriasPorNombre(@Param("nombreParcial") String nombreParcial);
 
-    //Consultar categorías con más de N cursos
+    // Consultar categorías con más de N cursos
     @Query("""
            SELECT cat FROM Categoria cat
            JOIN cat.cursos c
@@ -42,7 +42,7 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
            """)
     List<Categoria> findCategoriasConMasDeNCursos(@Param("minCursos") long minCursos);
 
-    // Ejemplo de consulta avanzada: obtener categorías con número de cursos asociados
+    // Obtener categorías con número de cursos asociados
     @Query("""
            SELECT c FROM Categoria c
            JOIN c.cursos cu
