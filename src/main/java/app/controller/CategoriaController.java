@@ -21,6 +21,10 @@ public class CategoriaController {
 
     private final CategoriaService categoriaService;
 
+    // =====================
+    // CRUD
+    // =====================
+
     @Operation(summary = "Obtener todas las categorías",
             description = "Devuelve una lista con todas las categorías disponibles en la plataforma")
     @ApiResponse(responseCode = "200", description = "Lista de categorías obtenida correctamente")
@@ -66,5 +70,51 @@ public class CategoriaController {
 
         categoriaService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // =====================
+    // CONSULTAS PERSONALIZADAS
+    // =====================
+
+    @Operation(summary = "Categorías con cursos disponibles",
+            description = "Devuelve las categorías que tienen cursos con plazas disponibles")
+    @GetMapping("/con-cursos-disponibles")
+    public ResponseEntity<List<Categoria>> categoriasConCursosDisponibles() {
+        return ResponseEntity.ok(categoriaService.categoriasConCursosDisponibles());
+    }
+
+    @Operation(summary = "Buscar categorías por nombre",
+            description = "Busca categorías cuyo nombre contenga el texto indicado")
+    @GetMapping("/buscar")
+    public ResponseEntity<List<Categoria>> buscarCategorias(
+            @Parameter(description = "Texto a buscar en el nombre de la categoría")
+            @RequestParam String nombre) {
+
+        return ResponseEntity.ok(categoriaService.buscarCategoriasPorNombre(nombre));
+    }
+
+    @Operation(summary = "Categorías con más de N cursos")
+    @GetMapping("/min-cursos/{cantidad}")
+    public ResponseEntity<List<Categoria>> categoriasConMinCursos(
+            @Parameter(description = "Número mínimo de cursos")
+            @PathVariable long cantidad) {
+
+        return ResponseEntity.ok(categoriaService.categoriasConMasDeNCursos(cantidad));
+    }
+
+    @Operation(summary = "Contar cursos por categoría",
+            description = "Devuelve cada categoría junto con el número de cursos asociados")
+    @GetMapping("/conteo-cursos")
+    public ResponseEntity<List<Object[]>> contarCursosPorCategoria() {
+        return ResponseEntity.ok(categoriaService.contarCursosPorCategoria());
+    }
+
+    @Operation(summary = "Categorías de un curso")
+    @GetMapping("/curso/{cursoId}")
+    public ResponseEntity<List<Categoria>> categoriasPorCurso(
+            @Parameter(description = "ID del curso")
+            @PathVariable Long cursoId) {
+
+        return ResponseEntity.ok(categoriaService.categoriasPorCurso(cursoId));
     }
 }

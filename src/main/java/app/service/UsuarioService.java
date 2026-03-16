@@ -13,7 +13,10 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    // CRUD básico
+    // =====================
+    // CRUD BÁSICO
+    // =====================
+
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
     }
@@ -29,5 +32,19 @@ public class UsuarioService {
 
     public void delete(Long id) {
         usuarioRepository.deleteById(id);
+    }
+
+    // =====================
+    // CONSULTAS PERSONALIZADAS
+    // =====================
+
+    // Usuarios inscritos en un curso específico
+    public List<Usuario> usuariosPorCurso(Long cursoId) {
+        return usuarioRepository.findUsuariosPorCurso(cursoId);
+    }
+
+    // Usuarios que no están inscritos en ningún curso
+    public List<Usuario> usuariosSinInscripciones() {
+        return usuarioRepository.findUsuariosSinInscripciones();
     }
 }

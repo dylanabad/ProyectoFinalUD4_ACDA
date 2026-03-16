@@ -20,7 +20,10 @@ public class CursoService {
     private final CursoRepository cursoRepository;
     private final UsuarioRepository usuarioRepository;
 
-    // CRUD básico
+    // =====================
+    // CRUD BÁSICO
+    // =====================
+
     public List<Curso> findAll() {
         return cursoRepository.findAll();
     }
@@ -38,35 +41,71 @@ public class CursoService {
         cursoRepository.deleteById(id);
     }
 
-    //inscribir usuario a un curso
+    // =====================
+    // CONSULTAS PERSONALIZADAS
+    // =====================
+
+    // Cursos en los que está inscrito un usuario
+    public List<Curso> cursosPorUsuario(Long usuarioId) {
+        return cursoRepository.findCursosByUsuarioId(usuarioId);
+    }
+
+    // Cursos de una categoría concreta
+    public List<Curso> cursosPorCategoria(String nombreCategoria) {
+        return cursoRepository.findCursosPorCategoria(nombreCategoria);
+    }
+
+    // Cursos con plazas disponibles
+    public List<Curso> cursosConPlazasDisponibles() {
+        return cursoRepository.findCursosConPlazasDisponibles();
+    }
+
+    // Cursos con un mínimo de inscripciones
+    public List<Curso> cursosConMinInscripciones(long minInscripciones) {
+        return cursoRepository.findCursosConMinInscripciones(minInscripciones);
+    }
+
+    // Contar estudiantes inscritos en cada curso
+    public List<Object[]> contarEstudiantesPorCurso() {
+        return cursoRepository.contarEstudiantesPorCurso();
+    }
+
+    // =====================
+    // LÓGICA DE NEGOCIO
+    // =====================
+
+    // Inscribir usuario a un curso
     @Transactional
     public void inscribirUsuario(Long cursoId, Long usuarioId) {
-        Curso curso = findById(cursoId);
-        Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        if (curso.getPlazasDisponibles() <= 0) {
+        // Usamos la query UPDATE del repository
+        int plazasActualizadas = cursoRepository.decrementarPlazas(cursoId);
+
+        if (plazasActualizadas == 0) {
             throw new RuntimeException("No quedan plazas disponibles");
         }
+
+        Curso curso = findById(cursoId);
+
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         // Crear inscripción
         Inscripciones inscripcion = new Inscripciones();
         inscripcion.setCurso(curso);
         inscripcion.setUsuario(usuario);
         inscripcion.setFechaInscripcion(LocalDate.now());
+
         InscripcionesId id = new InscripcionesId();
         id.setCursoId(curso.getId());
         id.setUsuarioId(usuario.getId());
         inscripcion.setId(id);
 
-        // Añadir inscripción a listas de referencia
+        // Añadir inscripción a listas
         curso.getInscripciones().add(inscripcion);
         usuario.getInscripciones().add(inscripcion);
 
-        // Reducir plazas
-        curso.setPlazasDisponibles(curso.getPlazasDisponibles() - 1);
-
-        // Guardar cambios
+        // Guardar
         cursoRepository.save(curso);
     }
 }

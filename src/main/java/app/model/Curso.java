@@ -39,6 +39,6 @@ public class Curso {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "categoria_id", nullable = false)
-    @JsonBackReference // rompe bucle con categoria
+    @JsonBackReference
     private Categoria categoria;
 }

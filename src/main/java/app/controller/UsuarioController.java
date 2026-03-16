@@ -20,6 +20,10 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
+    // =====================
+    // CRUD
+    // =====================
+
     @Operation(summary = "Obtener todos los usuarios")
     @GetMapping
     public ResponseEntity<List<Usuario>> getAll() {
@@ -65,5 +69,24 @@ public class UsuarioController {
 
         usuarioService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // =====================
+    // CONSULTAS PERSONALIZADAS
+    // =====================
+
+    @Operation(summary = "Usuarios inscritos en un curso")
+    @GetMapping("/curso/{cursoId}")
+    public ResponseEntity<List<Usuario>> usuariosPorCurso(
+            @Parameter(description = "ID del curso")
+            @PathVariable Long cursoId) {
+
+        return ResponseEntity.ok(usuarioService.usuariosPorCurso(cursoId));
+    }
+
+    @Operation(summary = "Usuarios sin inscripciones")
+    @GetMapping("/sin-inscripciones")
+    public ResponseEntity<List<Usuario>> usuariosSinInscripciones() {
+        return ResponseEntity.ok(usuarioService.usuariosSinInscripciones());
     }
 }

@@ -20,6 +20,10 @@ public class CursoController {
 
     private final CursoService cursoService;
 
+    // =====================
+    // CRUD
+    // =====================
+
     @Operation(summary = "Obtener todos los cursos")
     @GetMapping
     public ResponseEntity<List<Curso>> getAll() {
@@ -68,6 +72,10 @@ public class CursoController {
         return ResponseEntity.noContent().build();
     }
 
+    // =====================
+    // LÓGICA DE NEGOCIO
+    // =====================
+
     @Operation(
             summary = "Inscribir usuario en un curso",
             description = "Realiza la inscripción de un usuario en un curso si hay plazas disponibles"
@@ -79,5 +87,48 @@ public class CursoController {
 
         cursoService.inscribirUsuario(cursoId, usuarioId);
         return ResponseEntity.ok("Usuario inscrito correctamente");
+    }
+
+    // =====================
+    // CONSULTAS PERSONALIZADAS
+    // =====================
+
+    @Operation(summary = "Cursos con plazas disponibles")
+    @GetMapping("/disponibles")
+    public ResponseEntity<List<Curso>> cursosDisponibles() {
+        return ResponseEntity.ok(cursoService.cursosConPlazasDisponibles());
+    }
+
+    @Operation(summary = "Cursos por categoría")
+    @GetMapping("/categoria/{nombreCategoria}")
+    public ResponseEntity<List<Curso>> cursosPorCategoria(
+            @Parameter(description = "Nombre de la categoría")
+            @PathVariable String nombreCategoria) {
+
+        return ResponseEntity.ok(cursoService.cursosPorCategoria(nombreCategoria));
+    }
+
+    @Operation(summary = "Cursos en los que está inscrito un usuario")
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<Curso>> cursosPorUsuario(
+            @Parameter(description = "ID del usuario")
+            @PathVariable Long usuarioId) {
+
+        return ResponseEntity.ok(cursoService.cursosPorUsuario(usuarioId));
+    }
+
+    @Operation(summary = "Cursos con un mínimo de inscripciones")
+    @GetMapping("/min-inscripciones/{cantidad}")
+    public ResponseEntity<List<Curso>> cursosConMinInscripciones(
+            @Parameter(description = "Número mínimo de inscripciones")
+            @PathVariable long cantidad) {
+
+        return ResponseEntity.ok(cursoService.cursosConMinInscripciones(cantidad));
+    }
+
+    @Operation(summary = "Contar estudiantes por curso")
+    @GetMapping("/conteo-estudiantes")
+    public ResponseEntity<List<Object[]>> contarEstudiantesPorCurso() {
+        return ResponseEntity.ok(cursoService.contarEstudiantesPorCurso());
     }
 }
